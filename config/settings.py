@@ -127,11 +127,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = "static/"
-STATICFILES_DIRS = [BASE_DIR / "static"]
+STATICFILES_DIRS = [BASE_DIR / "static"]  # Квадратные скобки обязательны, так как это список путей.
 
 MEDIA_URL = "media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-# MEDIA_ROOT = BASE_DIR / "media"
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # классический и надёжный вариант для MEDIA_ROOT. Подходит для старых версий Python/Django.
+# MEDIA_ROOT = BASE_DIR / "media"  # современный и предпочтительный синтаксис (если проект использует pathlib). Эквивалентен os.path.join, но чище.
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
