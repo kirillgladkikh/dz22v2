@@ -4,14 +4,13 @@ from catalog.models import Product, Category
 
 
 class Command(BaseCommand):
-    help = 'Load test data from fixture'
+    help = "Load test data from fixture"
 
     def handle(self, *args, **kwargs):
         # Очищаем данные
         Product.objects.all().delete()
         Category.objects.all().delete()
 
-
         # Загружаем фикстуру
-        call_command('loaddata', 'catalog.json')
-        self.stdout.write(self.style.SUCCESS('Successfully loaded data from fixture'))
+        call_command("loaddata", "catalog.json")
+        self.stdout.write(self.style.SUCCESS("Successfully loaded data from fixture"))
