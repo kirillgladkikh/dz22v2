@@ -4,7 +4,7 @@ from django.http import HttpResponse
 
 # Create your views here.
 def home(request):
-    return render(request, 'home.html')
+    return render(request, "home.html")
 
 
 def contacts(request):
@@ -14,8 +14,10 @@ def contacts(request):
         phone = request.POST.get("phone")
         message = request.POST.get("message")
 
-        return HttpResponse(f"Спасибо, {name}! \
+        return HttpResponse(
+            f"Спасибо, {name}! \
             Ваш телефон: {phone}. \
-            Сообщение получено: {message}.")
+            Сообщение получено: {message}."
+        )
 
-    return render(request, 'contacts.html')
+    return render(request, "contacts.html")
