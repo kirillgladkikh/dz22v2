@@ -5,20 +5,26 @@ from catalog.models import Product
 
 # Create your views here.
 def products_list(request):
-    products = Product.objects.all()
-    context = {"products": products}
-    return render(request, "base.html", context)
-
-
-def home(request):
     """Список товаров"""
     products = Product.objects.all()
     context = {
         'products': products,
         'is_product_card': False,  # Флаг: это НЕ детальная страница = НЕ product_card.html
     }
+    # products = Product.objects.all()
     # context = {"products": products}
-    return render(request, "home.html", context)
+    return render(request, "products_list.html", context)
+
+
+# def home(request):
+#     """Список товаров"""
+#     products = Product.objects.all()
+#     context = {
+#         'products': products,
+#         'is_product_card': False,  # Флаг: это НЕ детальная страница = НЕ product_card.html
+#     }
+#     # context = {"products": products}
+#     return render(request, "home.html", context)
 
 
 def product_card(request, pk):

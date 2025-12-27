@@ -1,8 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
+    {% for product in products %}
         {% include 'includes/inc_product_data.html' with product=product %}
+    {% endfor %}
 {% endblock %}
-
-
-
-
