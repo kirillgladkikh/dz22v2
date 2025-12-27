@@ -103,13 +103,18 @@
 
                 <!-- Карточки товаров -->
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 g-4">
-
+                    {% for product in products %}
                     <!-- Товар 1 -->
                     <div class="col">
                         <div class="card h-100">
-                            <img src="20251202-03.png" class="card-img-top" alt="...">
+                            <img src="{{ product.product_image.url }}" class="card-img-top" alt="Изображение продукта">
                             <div class="card-body">
-                                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                <p class="card-text">Товар: {{ product.product_name }}</p>
+                                <p class="card-text">Описание: {{ product.product_description }}</p>
+                                <p class="card-text">Категория: {{ product.product_category }}</p>
+                                <p class="card-text">Цена: {{ product.product_price }}</p>
+                                <p class="card-text">Время создания: {{ product.created_at }}</p>
+                                <p class="card-text">Время обновления: {{ product.updated_at }}</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="d-flex gap-0">
                                         <button class="btn btn-outline-secondary">View</button>
@@ -120,93 +125,7 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- Товар 2 -->
-                    <div class="col">
-                        <div class="card h-100">
-                            <img src="20251202-03.png" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="d-flex gap-0">
-                                        <button class="btn btn-outline-secondary">View</button>
-                                        <button class="btn btn-outline-secondary">Edit</button>
-                                  </div>
-                                  <span class="text-muted">9 mins</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Товар 3 -->
-                    <div class="col">
-                        <div class="card h-100">
-                            <img src="20251202-03.png" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="d-flex gap-0">
-                                        <button class="btn btn-outline-secondary">View</button>
-                                        <button class="btn btn-outline-secondary">Edit</button>
-                                  </div>
-                                  <span class="text-muted">9 mins</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Товар 4 -->
-                    <div class="col">
-                        <div class="card h-100">
-                            <img src="20251202-03.png" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="d-flex gap-0">
-                                        <button class="btn btn-outline-secondary">View</button>
-                                        <button class="btn btn-outline-secondary">Edit</button>
-                                  </div>
-                                  <span class="text-muted">9 mins</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Товар 5 -->
-                    <div class="col">
-                        <div class="card h-100">
-                            <img src="20251202-03.png" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="d-flex gap-0">
-                                        <button class="btn btn-outline-secondary">View</button>
-                                        <button class="btn btn-outline-secondary">Edit</button>
-                                  </div>
-                                  <span class="text-muted">9 mins</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Товар 6 -->
-                    <div class="col">
-                        <div class="card h-100">
-                            <img src="20251202-03.png" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="d-flex gap-0">
-                                        <button class="btn btn-outline-secondary">View</button>
-                                        <button class="btn btn-outline-secondary">Edit</button>
-                                  </div>
-                                  <span class="text-muted">9 mins</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+                    {% endfor %}
             <div class="col-2"></div>
         </div>
     </div>
