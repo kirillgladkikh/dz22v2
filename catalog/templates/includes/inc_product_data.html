@@ -15,6 +15,17 @@
                 <p class="card-text">Время создания: {{ product.created_at }}</p>
                 <p class="card-text">Время обновления: {{ product.updated_at }}</p>
             {% endif %}
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex gap-0">
+                {% if is_product_card %}
+                    <button class="btn btn-outline-secondary">View</button>
+                    <button class="btn btn-outline-secondary">Edit</button>
+                {% else %}
+                    <a class="btn btn-primary" href="{% url 'catalog:product_card' product.pk %}" role="button">Посмотреть</a>
+                {% endif %}
+                </div>
+                <span class="text-muted">9 mins</span>
+            </div>
         </div>
     </div>
 </div>
