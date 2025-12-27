@@ -12,8 +12,36 @@ def products_list(request):
 
 def home(request):
     products = Product.objects.all()
-    context = {"products": products}
+    context = {
+        'products': products,
+        'is_product_card': False,  # Флаг: это НЕ детальная страница = НЕ product_card.html
+    }
+    # context = {"products": products}
     return render(request, "home.html", context)
+
+
+
+
+# def product_list(request):
+#     """Главная страница — список товаров"""
+#     products = Product.objects.all()
+#     context = {
+#         'products': products,
+#         'is_detail_page': False,  # Флаг: это НЕ детальная страница
+#     }
+#     return render(request, 'myapp/product_list.html', context)
+#
+# def product_detail(request, pk):
+#     """Детальная страница товара"""
+#     product = get_object_or_404(Product, pk=pk)
+#     context = {
+#         'product': product,
+#         'is_detail_page': True,   # Флаг: это детальная страница
+#     }
+#     return render(request, 'myapp/product_detail.html', context)
+
+
+
 
 
 # def index(request):
