@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from catalog.models import Product
 
@@ -11,6 +11,7 @@ def products_list(request):
 
 
 def home(request):
+    """Список товаров"""
     products = Product.objects.all()
     context = {
         'products': products,
@@ -18,6 +19,16 @@ def home(request):
     }
     # context = {"products": products}
     return render(request, "home.html", context)
+
+
+def product_card(request, pk):
+    """Детальная страница товара"""
+    product = get_object_or_404(Product, pk=pk)
+    context = {
+        'product': product,
+        'is_product_card': True,   # Флаг: это детальная страница = product_card.html !
+    }
+    return render(request, 'product_card.html', context)
 
 
 
