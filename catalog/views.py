@@ -10,12 +10,18 @@ def products_list(request):
     return render(request, "base.html", context)
 
 
+def home(request):
+    products = Product.objects.all()
+    context = {"products": products}
+    return render(request, "home.html", context)
+
+
 # def index(request):
 #     return render(request, "base.html")
 
 
-def home(request):
-    return render(request, "home.html")
+# def home(request):
+#     return render(request, "home.html")
 
 
 def contacts(request):
