@@ -104,20 +104,21 @@
                 <!-- Карточки товаров -->
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 g-4">
                     {% for product in products %}
-                    <!-- Товар 1 -->
-                    <div class="col">
-                        <div class="card h-100">
-                            <img src="{{ product.product_image.url }}" class="card-img-top" alt="Изображение продукта">
-                            <div class="card-body">
-                                <p class="card-text">Товар: {{ product.product_name }}</p>
-                                <p class="card-text">Описание: {{ product.product_description }}</p>
-                                <p class="card-text">Категория: {{ product.product_category }}</p>
-                                <p class="card-text">Цена: {{ product.product_price }} руб.</p>
-                                <p class="card-text">Время создания: {{ product.created_at }}</p>
-                                <p class="card-text">Время обновления: {{ product.updated_at }}</p>
-                            </div>
-                        </div>
-                    </div>
+                        {% include 'product_card.html' with product=product %}
+<!--                    &lt;!&ndash; Товар 1 &ndash;&gt;-->
+<!--                    <div class="col">-->
+<!--                        <div class="card h-100">-->
+<!--                            <img src="{{ product.product_image.url }}" class="card-img-top" alt="Изображение продукта">-->
+<!--                            <div class="card-body">-->
+<!--                                <p class="card-text">Товар: {{ product.product_name }}</p>-->
+<!--                                <p class="card-text">Описание: {{ product.product_description }}</p>-->
+<!--                                <p class="card-text">Категория: {{ product.product_category }}</p>-->
+<!--                                <p class="card-text">Цена: {{ product.product_price }} руб.</p>-->
+<!--                                <p class="card-text">Время создания: {{ product.created_at }}</p>-->
+<!--                                <p class="card-text">Время обновления: {{ product.updated_at }}</p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
                     {% endfor %}
             <div class="col-2"></div>
         </div>
