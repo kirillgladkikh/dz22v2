@@ -1,7 +1,9 @@
-{% extends "base.html" %}
+{% extends "blog/base.html" %}
 {% load static %}
 
+
 {% block title %}{{ post.title }}{% endblock %}
+
 
 {% block content %}
 <div class="container mt-4">
@@ -28,8 +30,12 @@
 
         <hr class="my-4">
 
-        <!-- Ссылка назад -->
-        <a href="{% url 'blog:list' %}" class="btn btn-link">&larr; К списку записей</a>
+        <!-- Кнопки управления -->
+        <div class="btn-group" role="group">
+            <a href="{% url 'blog:list' %}" class="btn btn-link">&larr; К списку записей</a>
+            <a href="{% url 'blog:update' post.pk %}" class="btn btn-sm btn-outline-secondary">Редактировать</a>
+            <a href="{% url 'blog:delete' post.pk %}" class="btn btn-sm btn-outline-danger">Удалить запись</a>
+        </div>
     </article>
 </div>
 {% endblock %}

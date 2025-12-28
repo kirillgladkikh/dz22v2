@@ -6,16 +6,18 @@ from django.urls import reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
 from .models import BlogPost
 from .forms import BlogPostForm
+from django.shortcuts import get_object_or_404
 
 
 class BlogPostListView(ListView):
     model = BlogPost
     template_name = "blog/list.html"
     context_object_name = "posts"
-    paginate_by = 5
+    # paginate_by = 5
 
     def get_queryset(self):
         return BlogPost.objects.using("blog").filter(is_published=True).order_by("-created_at")
+        # return BlogPost.objects.all()  # вместо .filter(is_published=True)
 
 
 class BlogPostDetailView(DetailView):
@@ -24,14 +26,24 @@ class BlogPostDetailView(DetailView):
     context_object_name = "post"
 
     def get_object(self, queryset=None):
+        # Получаем объект стандартным способом (один запрос к БД)
         obj = super().get_object(queryset)
-        # Явно читаем из БД blog
-        obj = BlogPost.objects.using("blog").get(pk=obj.pk)
 
-        # Увеличиваем просмотры
+        # Увеличиваем просмотры и сохраняем
         obj.views_count += 1
-        obj.save(using="blog", update_fields=["views_count"])
+        obj.save(update_fields=["views_count"])  # Только поле просмотров
+
         return obj
+
+    # def get_object(self, queryset=None):
+    #     obj = super().get_object(queryset)
+    #     # Явно читаем из БД blog
+    #     obj = BlogPost.objects.using("blog").get(pk=obj.pk)
+    #
+    #     # Увеличиваем просмотры
+    #     obj.views_count += 1
+    #     obj.save(using="blog", update_fields=["views_count"])
+    #     return obj
 
 
 class BlogPostCreateView(CreateView):
@@ -41,10 +53,17 @@ class BlogPostCreateView(CreateView):
     success_url = reverse_lazy("blog:list")
 
     def form_valid(self, form):
-        response = super().form_valid(form)
-        self.object.save(using="blog")  # Явно сохраняем в БД blog
-        messages.success(self.request, "Запись успешно создана!")
-        return response
+        print("POST data:", self.request.POST)  # Что пришло из формы
+        print("Form cleaned_data:", form.cleaned_data)  # Что обработала форма
+        print("is_published in cleaned_data:", form.cleaned_data.get('is_published'))
+        return super().form_valid(form)
+        # return super().form_valid(form)
+        # form.save()  # Без аргумента 'using'
+        # return super().form_valid(form)
+        # response = super().form_valid(form)
+        # self.object.save(using="blog")  # Явно сохраняем в БД blog
+        # messages.success(self.request, "Запись успешно создана!")
+        # return response
 
 
 class BlogPostUpdateView(UpdateView):
@@ -54,12 +73,13 @@ class BlogPostUpdateView(UpdateView):
     success_url = reverse_lazy("blog:list")
 
     def get_object(self, queryset=None):
-        obj = super().get_object(queryset)
-        return BlogPost.objects.using("blog").get(pk=obj.pk)  # Читаем из БД blog
+        # Достаточно одного вызова super().get_object()
+        return super().get_object(queryset)
 
     def form_valid(self, form):
-        form.save(using="blog")  # Явно сохраняем в БД blog
-        messages.success(self.request, "Запись обновлена!")
+        print("POST data:", self.request.POST)
+        print("Form cleaned_data:", form.cleaned_data)
+        print("is_published in cleaned_data:", form.cleaned_data.get('is_published'))
         return super().form_valid(form)
 
 
@@ -69,10 +89,25 @@ class BlogPostDeleteView(DeleteView):
     success_url = reverse_lazy("blog:list")
 
     def get_object(self, queryset=None):
-        obj = super().get_object(queryset)
-        return BlogPost.objects.using("blog").get(pk=obj.pk)  # Читаем из БД blog
+        # Получаем объект стандартным способом (без лишних запросов)
+        return super().get_object(queryset)
 
     def delete(self, request, *args, **kwargs):
-        self.get_object().delete(using="blog")  # Явно удаляем из БД blog
+        # Удаляем объект и выводим сообщение
+        self.object = self.get_object()
+        self.object.delete()
         messages.success(request, "Запись удалена!")
         return super().delete(request, *args, **kwargs)
+# class BlogPostDeleteView(DeleteView):
+#     model = BlogPost
+#     template_name = "blog/delete.html"
+#     success_url = reverse_lazy("blog:list")
+#
+#     def get_object(self, queryset=None):
+#         obj = super().get_object(queryset)
+#         return BlogPost.objects.using("blog").get(pk=obj.pk)  # Читаем из БД blog
+#
+#     def delete(self, request, *args, **kwargs):
+#         self.get_object().delete(using="blog")  # Явно удаляем из БД blog
+#         messages.success(request, "Запись удалена!")
+#         return super().delete(request, *args, **kwargs)
