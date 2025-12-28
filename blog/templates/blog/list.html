@@ -3,9 +3,11 @@
 
 {% block title %}Список записей{% endblock %}
 
+
 {% block content %}
 <h2>Публикации</h2>
 <a href="{% url 'blog:create' %}" class="btn btn-primary mb-3">Создать запись</a>
+
 
 <div class="row">
     {% for post in posts %}
@@ -20,3 +22,23 @@
                 <small class="text-muted">Опубликовано: {{ post.created_at|date:"d.m.Y H:i" }}</small>
                 <div class="mt-2">
                     <a href="{% url 'blog:detail' post.pk %}" class="btn btn-sm btn-outline-primary">Читать</a>
+                    <!-- Можно добавить кнопки редактирования/удаления для автора -->
+                    {% if user.is_authenticated and user == post.author %}
+                        <a href="{% url 'blog:update' post.pk %}" class="btn btn-sm btn-outline-secondary">Редактировать</a>
+                        <a href="{% url 'blog:delete' post.pk %}" class="btn btn-sm btn-outline-danger">Удалить</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Если постов нет -->
+{% if not posts %}
+<div class="alert alert-info" role="alert">
+    Пока нет публикаций. <a href="{% url 'blog:create' %}">Создайте первую запись</a>.
+</div>
+{% endif %}
+
+{% endblock %}
