@@ -98,7 +98,23 @@ DATABASES = {
         "PASSWORD": os.getenv("BLOG_DATABASE_PASSWORD"),
         "HOST": os.getenv("BLOG_DATABASE_HOST"),
         "PORT": os.getenv("BLOG_DATABASE_PORT", default="5432"),
-    }
+    },
+}
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+    },
+    "loggers": {
+        "django.db.backends": {
+            "level": "DEBUG",
+            "handlers": ["console"],
+        },
+    },
 }
 
 # # Указываем, какая БД используется для миграций приложения blog
