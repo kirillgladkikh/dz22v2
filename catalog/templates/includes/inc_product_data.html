@@ -1,0 +1,30 @@
+<!-- Товар 1 -->
+<div class="col">
+    <div class="card h-100">
+        <img src="{{ product.product_image.url }}" class="card-img-top" alt="Изображение продукта">
+        <div class="card-body">
+            <p class="card-text">Товар: {{ product.product_name }}</p>
+            {% if is_product_card %}
+                <p class="card-text">Описание: {{ product.product_description }}</p>
+            {% else %}
+                <p class="card-text">Описание: {{ product.product_description|truncatechars:100 }}</p>
+            {% endif %}
+            {% if is_product_card %}
+                <p class="card-text">Категория: {{ product.product_category }}</p>
+                <p class="card-text">Цена: {{ product.product_price }} руб.</p>
+                <p class="card-text">Время создания: {{ product.created_at }}</p>
+                <p class="card-text">Время обновления: {{ product.updated_at }}</p>
+            {% endif %}
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex gap-0">
+                {% if is_product_card %}
+                    <a class="btn btn-primary" href="{% url 'catalog:products_list' %}" role="button">Назад</a>
+                {% else %}
+                    <a class="btn btn-primary" href="{% url 'catalog:product_card' product.pk %}" role="button">Посмотреть</a>
+                {% endif %}
+                </div>
+                <span class="text-muted">9 mins</span>
+            </div>
+        </div>
+    </div>
+</div>
