@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Список записей{% endblock %}
+
+{% block content %}
+<h2>Публикации</h2>
+<a href="{% url 'blog:create' %}" class="btn btn-primary mb-3">Создать запись</a>
+
+<div class="row">
+    {% for post in posts %}
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            {% if post.preview_image %}
+                <img src="{{ post.preview_image.url }}" class="card-img-top" alt="{{ post.title }}">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ post.title }}</h5>
+                <p class="card-text">{{ post.content|truncatewords:30 }}</p>
+                <small class="text-muted">Опубликовано: {{ post.created_at|date:"d.m.Y H:i" }}</small>
+                <div class="mt-2">
+                    <a href="{% url 'blog:detail' post.pk %}" class="btn btn-sm btn-outline-primary">Читать</a>
