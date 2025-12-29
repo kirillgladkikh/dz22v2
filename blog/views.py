@@ -56,7 +56,7 @@ class BlogPostCreateView(CreateView):
     def form_valid(self, form):
         print("POST data:", self.request.POST)  # Что пришло из формы
         print("Form cleaned_data:", form.cleaned_data)  # Что обработала форма
-        print("is_published in cleaned_data:", form.cleaned_data.get('is_published'))
+        print("is_published in cleaned_data:", form.cleaned_data.get("is_published"))
         return super().form_valid(form)
         # return super().form_valid(form)
         # form.save()  # Без аргумента 'using'
@@ -80,12 +80,12 @@ class BlogPostUpdateView(UpdateView):
     def form_valid(self, form):
         print("POST data:", self.request.POST)
         print("Form cleaned_data:", form.cleaned_data)
-        print("is_published in cleaned_data:", form.cleaned_data.get('is_published'))
+        print("is_published in cleaned_data:", form.cleaned_data.get("is_published"))
         return super().form_valid(form)
 
     def get_success_url(self):
         # Возвращаем URL страницы детализации с текущим pk
-        return reverse('blog:detail', kwargs={'pk': self.object.pk})
+        return reverse("blog:detail", kwargs={"pk": self.object.pk})
 
 
 class BlogPostDeleteView(DeleteView):
@@ -103,6 +103,8 @@ class BlogPostDeleteView(DeleteView):
         self.object.delete()
         messages.success(request, "Запись удалена!")
         return super().delete(request, *args, **kwargs)
+
+
 # class BlogPostDeleteView(DeleteView):
 #     model = BlogPost
 #     template_name = "blog/delete.html"
