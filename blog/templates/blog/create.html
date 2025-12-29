@@ -1,0 +1,44 @@
+{% extends "blog/base.html" %}
+{% load static %}
+
+{% block title %}Создать запись{% endblock %}
+
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Создать новую запись</h2>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {{ form.errors }}  <!-- Вывод всех ошибок формы -->
+        {{ form.non_field_errors }}  <!-- Ошибки, не привязанные к полям -->
+
+        <div class="mb-3">
+            <label for="id_title" class="form-label">Заголовок</label>
+            {{ form.title }}
+        </div>
+
+        <div class="mb-3">
+            <label for="id_content" class="form-label">Текст</label>
+            {{ form.content }}
+        </div>
+
+        <div class="mb-3">
+            <label for="id_preview_image" class="form-label">Изображение</label>
+            {{ form.preview_image }}
+        </div>
+
+
+        <div class="mb-3 form-check">
+            {{ form.is_published }}
+            <label class="form-check-label! for="{{ form.is_published.id_for_label }}">
+                Опубликовать сразу
+            </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+        <a href="{% url 'blog:list' %}" class="btn btn-secondary">Назад к списку</a>
+    </form>
+</div>
+{% endblock %}

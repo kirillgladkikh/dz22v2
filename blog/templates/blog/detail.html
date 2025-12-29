@@ -1,0 +1,41 @@
+{% extends "blog/base.html" %}
+{% load static %}
+
+
+{% block title %}{{ post.title }}{% endblock %}
+
+
+{% block content %}
+<div class="container mt-4">
+    <article>
+        <h1>{{ post.title }}</h1>
+
+        {% if post.preview_image %}
+            <img src="{{ post.preview_image.url }}"
+                 alt="{{ post.title }}"
+                 class="img-fluid rounded mb-3"
+                 style="max-height: 400px; object-fit: cover;">
+        {% endif %}
+
+        <div class="text-muted mb-3">
+            <small>
+                Опубликовано: {{ post.created_at|date:"d.m.Y H:i" }}<br>
+                Просмотров: {{ post.views_count }}
+            </small>
+        </div>
+
+        <div class="content">
+            {{ post.content|linebreaks }}
+        </div>
+
+        <hr class="my-4">
+
+        <!-- Кнопки управления -->
+        <div class="btn-group" role="group">
+            <a href="{% url 'blog:list' %}" class="btn btn-link">&larr; К списку записей</a>
+            <a href="{% url 'blog:update' post.pk %}" class="btn btn-sm btn-outline-secondary">Редактировать</a>
+            <a href="{% url 'blog:delete' post.pk %}" class="btn btn-sm btn-outline-danger">Удалить запись</a>
+        </div>
+    </article>
+</div>
+{% endblock %}

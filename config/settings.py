@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "catalog",
+    "blog",
 ]
 
 MIDDLEWARE = [
@@ -80,6 +81,7 @@ WSGI_APPLICATION = "config.wsgi.application"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
+    # Основная БД (default) — используется по умолчанию
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
         "NAME": os.getenv("DATABASE_NAME"),
@@ -87,8 +89,52 @@ DATABASES = {
         "PASSWORD": os.getenv("DATABASE_PASSWORD"),
         "HOST": os.getenv("DATABASE_HOST"),
         "PORT": os.getenv("DATABASE_PORT", default="5432"),
-    }
+    },
+    # Вторая БД — для приложения blog
+    "blog": {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": os.getenv("BLOG_DATABASE_NAME"),
+        "USER": os.getenv("BLOG_DATABASE_USER"),
+        "PASSWORD": os.getenv("BLOG_DATABASE_PASSWORD"),
+        "HOST": os.getenv("BLOG_DATABASE_HOST"),
+        "PORT": os.getenv("BLOG_DATABASE_PORT", default="5432"),
+    },
 }
+
+# LOGGING = {
+#     "version": 1,
+#     "disable_existing_loggers": False,
+#     "handlers": {
+#         "console": {
+#             "class": "logging.StreamHandler",
+#         },
+#     },
+#     "loggers": {
+#         "django.db.backends": {
+#             "level": "DEBUG",
+#             "handlers": ["console"],
+#         },
+#     },
+# }
+
+# # Указываем, какая БД используется для миграций приложения blog
+# DATABASE_ROUTERS = {
+#     "blog": {"DATABASE": "blog"},
+# }
+
+# DATABASE_ROUTERS = ['blog.db_router.BlogRouter']
+
+
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql_psycopg2",
+#         "NAME": os.getenv("DATABASE_NAME"),
+#         "USER": os.getenv("DATABASE_USER"),
+#         "PASSWORD": os.getenv("DATABASE_PASSWORD"),
+#         "HOST": os.getenv("DATABASE_HOST"),
+#         "PORT": os.getenv("DATABASE_PORT", default="5432"),
+#     }
+# }
 
 
 # Password validation
