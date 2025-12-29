@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 from django.contrib import messages
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
 from .models import BlogPost
 from .forms import BlogPostForm
@@ -82,6 +82,10 @@ class BlogPostUpdateView(UpdateView):
         print("Form cleaned_data:", form.cleaned_data)
         print("is_published in cleaned_data:", form.cleaned_data.get('is_published'))
         return super().form_valid(form)
+
+    def get_success_url(self):
+        # Возвращаем URL страницы детализации с текущим pk
+        return reverse('blog:detail', kwargs={'pk': self.object.pk})
 
 
 class BlogPostDeleteView(DeleteView):
