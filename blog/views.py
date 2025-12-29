@@ -16,7 +16,8 @@ class BlogPostListView(ListView):
     # paginate_by = 5
 
     def get_queryset(self):
-        return BlogPost.objects.using("blog").filter(is_published=True).order_by("-created_at")
+        return BlogPost.objects.filter(is_published=True).order_by("-created_at")
+        # return BlogPost.objects.using("blog").filter(is_published=True).order_by("-created_at")
         # return BlogPost.objects.all()  # вместо .filter(is_published=True)
 
 

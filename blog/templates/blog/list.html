@@ -23,12 +23,19 @@
                 <h5 class="card-title">{{ post.title }}</h5>
                 <p class="card-text">{{ post.content|truncatewords:30 }}</p>
                 <small class="text-muted">Опубликовано: {{ post.created_at|date:"d.m.Y H:i" }}</small>
+                {% if post.is_published %}
+                    <span class="badge bg-success">Опубликовано</span>
+                {% else %}
+                    <span class="badge bg-warning">Черновик</span>
+                {% endif %}
                 <div class="mt-2">
                     <a href="{% url 'blog:detail' post.pk %}" class="btn btn-sm btn-outline-primary">Читать</a>
                 </div>
             </div>
         </div>
     </div>
+    {% empty %}
+    <p>Записей нет.</p>
     {% endfor %}
 </div>
 
