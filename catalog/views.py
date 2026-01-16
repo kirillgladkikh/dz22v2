@@ -6,6 +6,8 @@ from django.urls import reverse_lazy
 from catalog.models import Product
 from .forms import ProductForm
 
+from .models import Category
+
 
 class ProductsListView(TemplateView):
     template_name = "products_list.html"
@@ -50,6 +52,17 @@ class ProductCreateView(CreateView):
     form_class = ProductForm
     template_name = 'product_create.html'
     success_url = reverse_lazy('products_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()  # добавляем категории в контекст
+        return context
+
+    def form_valid(self, form):
+        product = form.save(commit=False)  # создаём объект продукта, но не сохраняем сразу
+        product.category_id = self.request.POST.get('category')  # присваиваем ID категории из POST-запроса
+        product.save()  # сохраняем продукт с привязанной категорией
+        return super().form_valid(form)  # завершаем обработку (редирект на success_url)
 
 
 class ProductUpdateView(UpdateView):
