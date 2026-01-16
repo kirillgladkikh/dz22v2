@@ -1,5 +1,7 @@
 from django import forms
 from .models import Product, Category
+from django.core.exceptions import ValidationError
+
 
 class ProductForm(forms.ModelForm):
     # Список запрещённых слов
