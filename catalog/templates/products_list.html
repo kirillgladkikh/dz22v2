@@ -7,7 +7,7 @@
             <div class="col-6"> <!-- Колонка шириной 6/12 для размещения основного контента -->
 
                 <!-- Ссылка на создание нового продукта -->
-                <a href="{% url 'product_create' %}">Создать продукт</a>
+                <a href="{% url 'catalog:product_create' %}">Создать продукт</a>
                 <br><br> <!-- Отступ для визуального разделения -->
 
                 <!-- Карточки товаров -->
@@ -16,8 +16,8 @@
                     {% for product in products %}
                         {% include 'includes/inc_product_data.html' with product=product %}
                         <div>
-                            <a href="{% url 'product_update' product.pk %}">Редактировать</a>
-                            <a href="{% url 'product_delete' product.pk %}">Удалить</a>
+                            <a href="{% url 'catalog:product_update' product.pk %}">Редактировать</a>
+                            <a href="{% url 'catalog:product_delete' product.pk %}">Удалить</a>
                         </div>
                     {% endfor %}
 
