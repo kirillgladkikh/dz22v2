@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="main-content">
+    <div class="container-fluid">
+        <h2>Редактирование продукта</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}  <!-- Рендерим стандартные поля формы -->
+
+            <!-- Добавляем выпадающий список категорий -->
+            <select name="category">
+                {% for category in categories %}
+                    <option value="{{ category.id }}">{{ category.name }}</option>
+                {% endfor %}
+            </select>
+
+            <button type="submit">Сохранить</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
