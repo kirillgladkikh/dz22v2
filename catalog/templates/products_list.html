@@ -5,11 +5,20 @@
         <!-- ОБЁРТКА ДЛЯ ЦЕНТРИРОВАНИЯ (КЛЮЧЕВОЙ БЛОК) -->
         <div class="d-flex justify-content-center">
             <div class="col-6"> <!-- Колонка шириной 6/12 для размещения основного контента -->
+
+                <!-- Ссылка на создание нового продукта -->
+                <a href="{% url 'product_create' %}">Создать продукт</a>
+                <br><br> <!-- Отступ для визуального разделения -->
+
                 <!-- Карточки товаров -->
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 g-4">
 
                     {% for product in products %}
                         {% include 'includes/inc_product_data.html' with product=product %}
+                        <div>
+                            <a href="{% url 'product_update' product.pk %}">Редактировать</a>
+                            <a href="{% url 'product_delete' product.pk %}">Удалить</a>
+                        </div>
                     {% endfor %}
 
                 </div>

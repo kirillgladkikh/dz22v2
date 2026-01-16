@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="main-content">
+    <div class="container-fluid">
+        <h2>Создание продукта</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Создать</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
