@@ -59,10 +59,19 @@ class ProductCreateView(CreateView):
         return context
 
     def form_valid(self, form):
-        product = form.save(commit=False)  # создаём объект продукта, но не сохраняем сразу
-        product.category_id = self.request.POST.get('category')  # присваиваем ID категории из POST-запроса
-        product.save()  # сохраняем продукт с привязанной категорией
-        return super().form_valid(form)  # завершаем обработку (редирект на success_url)
+        # print("POST data:", self.request.POST)  # Что пришло из формы
+        # print("Form cleaned_data:", form.cleaned_data)  # Что обработала форма
+        # print("is_published in cleaned_data:", form.cleaned_data.get("is_published"))
+        return super().form_valid(form)
+
+    # def form_valid(self, form):
+    #     # form.save()  # Django сам сохранит и объект, и изображение
+    #     return super().form_valid(form)
+    # def form_valid(self, form):
+    #     product = form.save(commit=False)  # создаём объект продукта, но не сохраняем сразу
+    #     product.category_id = self.request.POST.get('category')  # присваиваем ID категории из POST-запроса
+    #     product.save()  # сохраняем продукт с привязанной категорией
+    #     return super().form_valid(form)  # завершаем обработку (редирект на success_url)
 
 
 class ProductUpdateView(UpdateView):
@@ -70,6 +79,20 @@ class ProductUpdateView(UpdateView):
     form_class = ProductForm
     template_name = 'product_update.html'
     success_url = reverse_lazy('catalog:products_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()  # добавляем категории в контекст
+        return context
+
+    def form_valid(self, form):
+        # print("POST data:", self.request.POST)
+        # print("Form cleaned_data:", form.cleaned_data)
+        # print("is_published in cleaned_data:", form.cleaned_data.get("is_published"))
+        return super().form_valid(form)
+    # def form_valid(self, form):
+    #     # form.save()  # Django сам сохранит и объект, и изображение
+    #     return super().form_valid(form)
 
 
 class ProductDeleteView(DeleteView):
