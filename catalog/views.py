@@ -50,12 +50,12 @@ class ContactsView(View):
 class ProductCreateView(CreateView):
     model = Product
     form_class = ProductForm
-    template_name = 'product_create.html'
-    success_url = reverse_lazy('catalog:products_list')
+    template_name = "product_create.html"
+    success_url = reverse_lazy("catalog:products_list")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['categories'] = Category.objects.all()  # добавляем категории в контекст
+        context["categories"] = Category.objects.all()  # добавляем категории в контекст
         return context
 
     def form_valid(self, form):
@@ -65,12 +65,12 @@ class ProductCreateView(CreateView):
 class ProductUpdateView(UpdateView):
     model = Product
     form_class = ProductForm
-    template_name = 'product_update.html'
-    success_url = reverse_lazy('catalog:products_list')
+    template_name = "product_update.html"
+    success_url = reverse_lazy("catalog:products_list")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['categories'] = Category.objects.all()  # добавляем категории в контекст
+        context["categories"] = Category.objects.all()  # добавляем категории в контекст
         return context
 
     def form_valid(self, form):
@@ -79,5 +79,5 @@ class ProductUpdateView(UpdateView):
 
 class ProductDeleteView(DeleteView):
     model = Product
-    template_name = 'product_delete.html'
-    success_url = reverse_lazy('catalog:products_list')
+    template_name = "product_delete.html"
+    success_url = reverse_lazy("catalog:products_list")
