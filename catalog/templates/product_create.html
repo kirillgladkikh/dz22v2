@@ -4,8 +4,8 @@
     <div class="container-fluid">
         <h2>Создание продукта</h2>
 
-
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
+<!--        <form method="post">-->
             {% csrf_token %}
 
 <!--            &lt;!&ndash; Отображение общих ошибок формы (если есть) &ndash;&gt;-->
