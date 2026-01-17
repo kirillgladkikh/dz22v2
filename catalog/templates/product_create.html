@@ -8,13 +8,13 @@
         <form method="post">
             {% csrf_token %}
 
-            <!-- Отображение общих ошибок формы (если есть) -->
-            {% if form.errors %}
-                <div class="alert alert-danger">
-                    <p>Пожалуйста, исправьте следующие ошибки:</p>
-                    {{ form.errors }}
-                </div>
-            {% endif %}
+<!--            &lt;!&ndash; Отображение общих ошибок формы (если есть) &ndash;&gt;-->
+<!--            {% if form.errors %}-->
+<!--                <div class="alert alert-danger">-->
+<!--                    <p>Пожалуйста, исправьте следующие ошибки:</p>-->
+<!--                    {{ form.errors }}-->
+<!--                </div>-->
+<!--            {% endif %}-->
 
             <!-- Поля формы -->
             <div class="form-group">
