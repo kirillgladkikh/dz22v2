@@ -2,6 +2,8 @@ from django import forms
 from .models import Product, Category
 from django.core.exceptions import ValidationError
 
+import os
+
 
 class ProductForm(forms.ModelForm):
     # Список запрещённых слов
@@ -34,7 +36,7 @@ class ProductForm(forms.ModelForm):
             }
         )
         self.fields["product_image"].widget.attrs.update(
-            {"class": "form-control-file", "accept": "image/*"}  # Ограничение на загрузку только изображений
+            {"class": "form-control-file", "accept": "image/jpeg,image/png"}  # Явно указываем допустимые MIME-типы
         )
         self.fields["product_category"].widget.attrs.update(
             {"class": "form-select", "placeholder": "Выберите категорию..."}
@@ -72,3 +74,29 @@ class ProductForm(forms.ModelForm):
             if product_price < 0:
                 raise ValidationError("Цена не может быть отрицательной! Пожалуйста, введите положительное значение.")
         return product_price
+
+    def clean_product_image(self):
+        image = self.cleaned_data.get("product_image")
+        if image:
+            # 1. Проверка расширения файла (jpg, jpeg, png)
+            ext = os.path.splitext(image.name)[1].lower()  # получаем расширение
+            if ext not in ['.jpg', '.jpeg', '.png']:
+                raise ValidationError("Допустимы только файлы форматов JPG, JPEG или PNG.")
+
+            # 2. Проверка размера файла (не более 5 МБ)
+            if image.size > 5 * 1024 * 1024:  # 5 МБ в байтах
+                raise ValidationError("Размер файла не должен превышать 5 МБ.")
+
+            # 3. Проверка MIME-типа (дополнительная защита)
+            if not image.content_type.startswith('image/'):
+                raise ValidationError("Файл должен быть изображением.")
+
+            # 4. Проверка, что это действительно изображение (через Pillow)
+            from PIL import Image
+            try:
+                img = Image.open(image)
+                img.verify()  # проверяет целостность файла
+            except (IOError, SyntaxError) as e:
+                raise ValidationError("Загруженный файл не является корректным изображением.")
+
+        return image  # возвращаем очищенное значение
