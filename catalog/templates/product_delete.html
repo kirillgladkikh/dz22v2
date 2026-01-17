@@ -6,8 +6,10 @@
         <p>Вы уверены, что хотите удалить продукт "{{ object.product_name }}"?</p>
         <form method="post">
             {% csrf_token %}
-            <button type="submit">Удалить</button>
-            <a href="{% url 'products_list' %}">Отмена</a>
+            <div class="d-grid gap-2 d-md-block">
+                <button type="submit" class="btn btn-danger">Удалить продукт</button>
+                <a href="{% url 'catalog:products_list' %}" class="btn btn-secondary">Отменить</a>
+            </div>
         </form>
     </div>
 </div>
