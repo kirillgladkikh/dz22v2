@@ -54,17 +54,7 @@ class BlogPostCreateView(CreateView):
     success_url = reverse_lazy("blog:list")
 
     def form_valid(self, form):
-        print("POST data:", self.request.POST)  # Что пришло из формы
-        print("Form cleaned_data:", form.cleaned_data)  # Что обработала форма
-        print("is_published in cleaned_data:", form.cleaned_data.get("is_published"))
         return super().form_valid(form)
-        # return super().form_valid(form)
-        # form.save()  # Без аргумента 'using'
-        # return super().form_valid(form)
-        # response = super().form_valid(form)
-        # self.object.save(using="blog")  # Явно сохраняем в БД blog
-        # messages.success(self.request, "Запись успешно создана!")
-        # return response
 
 
 class BlogPostUpdateView(UpdateView):
@@ -103,18 +93,3 @@ class BlogPostDeleteView(DeleteView):
         self.object.delete()
         messages.success(request, "Запись удалена!")
         return super().delete(request, *args, **kwargs)
-
-
-# class BlogPostDeleteView(DeleteView):
-#     model = BlogPost
-#     template_name = "blog/delete.html"
-#     success_url = reverse_lazy("blog:list")
-#
-#     def get_object(self, queryset=None):
-#         obj = super().get_object(queryset)
-#         return BlogPost.objects.using("blog").get(pk=obj.pk)  # Читаем из БД blog
-#
-#     def delete(self, request, *args, **kwargs):
-#         self.get_object().delete(using="blog")  # Явно удаляем из БД blog
-#         messages.success(request, "Запись удалена!")
-#         return super().delete(request, *args, **kwargs)

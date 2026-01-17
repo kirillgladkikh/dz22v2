@@ -27,7 +27,7 @@ class ProductForm(forms.ModelForm):
             'product_price': 'Цена продукта'
         }
         widgets = {
-            'product_description': forms.Textarea(attrs={'rows': 3}),
+            'product_description': forms.Textarea(attrs={'rows': 6}),
         }
 
     def __init__(self, *args, **kwargs):
@@ -40,7 +40,6 @@ class ProductForm(forms.ModelForm):
         self.fields['product_description'].widget.attrs.update({
             'class': 'form-control',
             'placeholder': 'Опишите продукт...',
-            'rows': 6
         })
         self.fields['product_image'].widget.attrs.update({
             'class': 'form-control-file',
