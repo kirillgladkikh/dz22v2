@@ -30,6 +30,33 @@ class ProductForm(forms.ModelForm):
             'product_description': forms.Textarea(attrs={'rows': 3}),
         }
 
+    def __init__(self, *args, **kwargs):
+        super(ProductForm, self).__init__(*args, **kwargs)
+        # Стилизация полей формы
+        self.fields['product_name'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': 'Введите наименование продукта...'
+        })
+        self.fields['product_description'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': 'Опишите продукт...',
+            'rows': 6
+        })
+        self.fields['product_image'].widget.attrs.update({
+            'class': 'form-control-file',
+            'accept': 'image/*'  # Ограничение на загрузку только изображений
+        })
+        self.fields['product_category'].widget.attrs.update({
+            'class': 'form-select',
+            'placeholder': 'Выберите категорию...'
+        })
+        self.fields['product_price'].widget.attrs.update({
+            'class': 'form-control',
+            'type': 'number',
+            'step': '0.01',  # Для ввода дробных чисел (цена)
+            'placeholder': 'Введите цену...'
+        })
+
     def clean_product_name(self):
         product_name = self.cleaned_data.get('product_name')
         if product_name:
