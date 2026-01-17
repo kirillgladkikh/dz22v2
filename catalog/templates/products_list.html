@@ -15,10 +15,6 @@
 
                     {% for product in products %}
                         {% include 'includes/inc_product_data.html' with product=product %}
-                        <div>
-<!--                            <a href="{% url 'catalog:product_update' product.pk %}">Редактировать</a>-->
-<!--                            <a href="{% url 'catalog:product_delete' product.pk %}">Удалить</a>-->
-                        </div>
                     {% endfor %}
 
                 </div>
