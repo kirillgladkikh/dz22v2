@@ -7,14 +7,6 @@
         <form method="post">
             {% csrf_token %}
 
-<!--            &lt;!&ndash; Отображение общих ошибок формы &ndash;&gt;-->
-<!--            {% if form.errors %}-->
-<!--                <div class="alert alert-danger">-->
-<!--                    <p>Пожалуйста, исправьте следующие ошибки:</p>-->
-<!--                    {{ form.errors }}-->
-<!--                </div>-->
-<!--            {% endif %}-->
-
             <!-- Поля формы -->
             <div class="form-group">
                 {{ form.product_name.label_tag }}
@@ -66,18 +58,18 @@
                 {% endif %}
             </div>
 
-            <!-- Выпадающий список категорий -->
-            <div class="form-group">
-                <label for="id_category">Категория</label>
-                <select name="category" id="id_category">
-                    {% for category in categories %}
-                        <option value="{{ category.id }}"
-                            {% if category.id == form.instance.product_category.id %}selected{% endif %}>
-                            {{ category.category_name }}
-                        </option>
-                    {% endfor %}
-                </select>
-            </div>
+<!--            &lt;!&ndash; Выпадающий список категорий &ndash;&gt;-->
+<!--            <div class="form-group">-->
+<!--                <label for="id_category">Категория</label>-->
+<!--                <select name="category" id="id_category">-->
+<!--                    {% for category in categories %}-->
+<!--                        <option value="{{ category.id }}"-->
+<!--                            {% if category.id == form.instance.product_category.id %}selected{% endif %}>-->
+<!--                            {{ category.category_name }}-->
+<!--                        </option>-->
+<!--                    {% endfor %}-->
+<!--                </select>-->
+<!--            </div>-->
 
             <button type="submit" class="btn btn-primary">Сохранить</button>
         </form>
