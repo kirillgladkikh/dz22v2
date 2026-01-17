@@ -78,3 +78,11 @@ class ProductForm(forms.ModelForm):
                         f'Слово "{word}" запрещено для использования в описании продукта.'
                     )
         return product_description
+
+    def clean_product_price(self):
+        product_price = self.cleaned_data.get('product_price')
+        if product_price is not None:
+            if product_price < 0:
+                raise ValidationError('Цена не может быть отрицательной! Пожалуйста, введите положительное значение.')
+        return product_price
+
