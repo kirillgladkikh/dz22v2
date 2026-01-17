@@ -29,11 +29,15 @@
                 <div class="d-flex gap-0">
                 {% if is_product_card %}
                     <a class="btn btn-primary" href="{% url 'catalog:products_list' %}" role="button">Назад</a>
+
+                    <a class="btn btn-secondary" href="{% url 'catalog:product_update' product.pk %}" role="button">Редактировать</a>
+                    <a class="btn btn-secondary" href="{% url 'catalog:product_delete' product.pk %}" role="button">Удалить</a>
+
                 {% else %}
                     <a class="btn btn-primary" href="{% url 'catalog:product_card' product.pk %}" role="button">Посмотреть</a>
                 {% endif %}
                 </div>
-<!--                <span class="text-muted">9 mins</span>-->
+
             </div>
         </div>
     </div>
