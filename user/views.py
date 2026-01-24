@@ -14,7 +14,7 @@ from config.settings import EMAIL_HOST_USER
 class UserCreateView(CreateView):
     model = User
     form_class = UserRegisterForm
-    success_url = reverse_lazy('user:login')
+    success_url = reverse_lazy("user:login")
 
     def form_valid(self, form):
         user = form.save()
@@ -24,13 +24,13 @@ class UserCreateView(CreateView):
         user.save()
 
         host = self.request.get_host()
-        url = f'http://{host}/user/email-confirm/{token}/'
+        url = f"http://{host}/user/email-confirm/{token}/"
 
         send_mail(
             subject="Подтверждение почты",
             message=f"Привет, перейди по ссылке для подтверждения почты {url}",
             from_email=EMAIL_HOST_USER,
-            recipient_list=[user.email]
+            recipient_list=[user.email],
         )
         return super().form_valid(form)
 
@@ -40,7 +40,6 @@ def email_verification(request, token):
     user.is_active = True
     user.save()
     return redirect(reverse("user:login"))
-
 
 
 # from django.http import HttpResponse
