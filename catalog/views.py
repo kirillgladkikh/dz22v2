@@ -1,8 +1,12 @@
 from django.views import View
-from django.views.generic import TemplateView, DetailView
+from django.views.generic import TemplateView, DetailView, CreateView, UpdateView, DeleteView
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
+from django.urls import reverse_lazy
 from catalog.models import Product
+from .forms import ProductForm
+
+from .models import Category
 
 
 class ProductsListView(TemplateView):
@@ -41,3 +45,39 @@ class ContactsView(View):
             Ваш телефон: {phone}. \
             Сообщение получено: {message}."
         )
+
+
+class ProductCreateView(CreateView):
+    model = Product
+    form_class = ProductForm
+    template_name = "product_create.html"
+    success_url = reverse_lazy("catalog:products_list")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["categories"] = Category.objects.all()  # добавляем категории в контекст
+        return context
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+
+
+class ProductUpdateView(UpdateView):
+    model = Product
+    form_class = ProductForm
+    template_name = "product_update.html"
+    success_url = reverse_lazy("catalog:products_list")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["categories"] = Category.objects.all()  # добавляем категории в контекст
+        return context
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+
+
+class ProductDeleteView(DeleteView):
+    model = Product
+    template_name = "product_delete.html"
+    success_url = reverse_lazy("catalog:products_list")
