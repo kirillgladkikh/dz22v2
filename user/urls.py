@@ -1,12 +1,21 @@
+from django.contrib.auth.views import LoginView
 from django.urls import path
 from user.apps import UserConfig
 from . import views
+
 
 app_name = UserConfig.name
 
 urlpatterns = [
     path('', views.user, name='user'),  # пример маршрута
+    path('login/', LoginView.as_view(template_name="login.html")),
 ]
+
+
+
+
+
+
 
 
 # пример
