@@ -1,7 +1,17 @@
+{% load static %}  <!-- Эта строка обязательна! -->
+
 <!-- Товар 1 -->
 <div class="col">
     <div class="card h-100">
-        <img src="{{ product.product_image.url }}" class="card-img-top" alt="Изображение продукта">
+
+        <!-- Проверка наличия изображения -->
+        {% if product.product_image %}
+            <img src="{{ product.product_image.url }}" class="card-img-top" alt="{{ product.product_name }}">
+        {% else %}
+            <!-- Заглушка, если изображения нет -->
+            <img src="{% static 'images/no-image.png' %}" class="card-img-top" alt="Нет изображения">
+        {% endif %}
+
         <div class="card-body">
             <p class="card-text">Товар: {{ product.product_name }}</p>
             {% if is_product_card %}
@@ -19,11 +29,15 @@
                 <div class="d-flex gap-0">
                 {% if is_product_card %}
                     <a class="btn btn-primary" href="{% url 'catalog:products_list' %}" role="button">Назад</a>
+
+                    <a class="btn btn-secondary" href="{% url 'catalog:product_update' product.pk %}" role="button">Редактировать</a>
+                    <a class="btn btn-secondary" href="{% url 'catalog:product_delete' product.pk %}" role="button">Удалить</a>
+
                 {% else %}
                     <a class="btn btn-primary" href="{% url 'catalog:product_card' product.pk %}" role="button">Посмотреть</a>
                 {% endif %}
                 </div>
-                <span class="text-muted">9 mins</span>
+
             </div>
         </div>
     </div>
