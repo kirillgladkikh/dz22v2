@@ -191,3 +191,6 @@ AUTH_USER_MODEL = "user.User"
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+# LOGIN_REDIRECT_URL = 'library:books_list'
+LOGIN_URL = 'user:login'

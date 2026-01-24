@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from django.urls import reverse_lazy
 from catalog.models import Product
 from .forms import ProductForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Category
 
@@ -19,7 +20,7 @@ class ProductsListView(TemplateView):
         return context
 
 
-class ProductCardView(DetailView):
+class ProductCardView(LoginRequiredMixin, DetailView):
     model = Product
     template_name = "product_card.html"
     context_object_name = "product"
@@ -47,7 +48,7 @@ class ContactsView(View):
         )
 
 
-class ProductCreateView(CreateView):
+class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
     template_name = "product_create.html"
@@ -62,7 +63,7 @@ class ProductCreateView(CreateView):
         return super().form_valid(form)
 
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
     template_name = "product_update.html"
@@ -77,7 +78,7 @@ class ProductUpdateView(UpdateView):
         return super().form_valid(form)
 
 
-class ProductDeleteView(DeleteView):
+class ProductDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
     template_name = "product_delete.html"
     success_url = reverse_lazy("catalog:products_list")
