@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "catalog",
     "blog",
-    "user"
+    "user",
 ]
 
 MIDDLEWARE = [
@@ -189,8 +189,18 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "user.User"
 
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
 
 # LOGIN_REDIRECT_URL = 'library:books_list'
-LOGIN_URL = 'user:login'
+LOGIN_URL = "user:login"
+
+EMAIL_HOST = "smtp.yandex.ru"
+EMAIL_PORT = 465
+EMAIL_HOST_USER = "k.gladkikh@yandex.ru"
+EMAIL_HOST_PASSWORD = "edafmotgmxoegjya"
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+
+SERVER_EMAIL = EMAIL_HOST_USER
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

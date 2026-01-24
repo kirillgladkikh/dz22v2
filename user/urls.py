@@ -1,7 +1,7 @@
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import path
 from user.apps import UserConfig
-from user.views import UserCreateView
+from user.views import UserCreateView, email_verification
 from user.forms import LoginForm
 from . import views
 
@@ -12,7 +12,8 @@ urlpatterns = [
     # path('', views.user, name='user'),  # пример маршрута
     # path('login/', LoginView.as_view(template_name="login.html")),
     # path('login/', LoginView.as_view(template_name="login.html"), name='login'),
-    path('login/', LoginView.as_view(authentication_form=LoginForm, template_name="login.html"), name='login'),
-    path('logout/', LogoutView.as_view(), name='logout'),
-    path('register/', UserCreateView.as_view(), name='register'),
+    path("login/", LoginView.as_view(authentication_form=LoginForm, template_name="login.html"), name="login"),
+    path("logout/", LogoutView.as_view(), name="logout"),
+    path("register/", UserCreateView.as_view(), name="register"),
+    path("email-confirm/<str:token>/", email_verification, name="email-confirm"),
 ]

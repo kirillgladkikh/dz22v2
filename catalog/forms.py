@@ -80,7 +80,7 @@ class ProductForm(forms.ModelForm):
         if image:
             # 1. Проверка расширения файла (jpg, jpeg, png)
             ext = os.path.splitext(image.name)[1].lower()  # получаем расширение
-            if ext not in ['.jpg', '.jpeg', '.png']:
+            if ext not in [".jpg", ".jpeg", ".png"]:
                 raise ValidationError("Допустимы только файлы форматов JPG, JPEG или PNG.")
 
             # 2. Проверка размера файла (не более 5 МБ)
@@ -88,11 +88,12 @@ class ProductForm(forms.ModelForm):
                 raise ValidationError("Размер файла не должен превышать 5 МБ.")
 
             # 3. Проверка MIME-типа (дополнительная защита)
-            if not image.content_type.startswith('image/'):
+            if not image.content_type.startswith("image/"):
                 raise ValidationError("Файл должен быть изображением.")
 
             # 4. Проверка, что это действительно изображение (через Pillow)
             from PIL import Image
+
             try:
                 img = Image.open(image)
                 img.verify()  # проверяет целостность файла
