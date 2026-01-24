@@ -47,6 +47,10 @@ class Product(models.Model):
         auto_now=True,
         verbose_name="Дата последнего изменения",
     )
+    # Новое поле: статус публикации
+    is_published = models.BooleanField(
+        default=False, verbose_name="Опубликован", help_text="Отметьте, чтобы опубликовать продукт"
+    )
 
     class Meta:
         verbose_name = "Продукт"

@@ -25,6 +25,10 @@ class ProductCardView(LoginRequiredMixin, DetailView):
     template_name = "product_card.html"
     context_object_name = "product"
 
+    def get_queryset(self):
+        # Показываем только опубликованные продукты
+        return Product.objects.filter(is_published=True)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["is_product_card"] = True
