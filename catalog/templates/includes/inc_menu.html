@@ -6,6 +6,11 @@
 <!--    <a href="#">Заказы</a>-->
     <a href="{% url 'catalog:contacts' %}">Контакты</a>
     <a href="{% url 'blog:list' %}">Блог</a>
+    {% if user.is_authenticated %}
+    <a href="{% url 'user:logout' %}">Выход</a>
+    {% else %}
+    <a href="{% url 'user:login' %}">Вход</a>
+    {% endif %}
     <hr class="my-3">
 <!--    <a href="#">Профиль</a>-->
 <!--    <a href="#">Выход</a>-->
