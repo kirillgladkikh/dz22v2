@@ -58,6 +58,14 @@
                 {% endif %}
             </div>
 
+            <!-- Поле "Опубликован" — показывается только для модераторов -->
+            {% if user.has_perm("catalog.can_unpublish_product") %}
+                <div class="mb-3">
+                    {{ form.is_published.label_tag }}
+                    {{ form.is_published }}
+                </div>
+            {% endif %}
+
             <button type="submit" class="btn btn-primary">Сохранить</button>
             <a href="{% url 'catalog:products_list' %}" class="btn btn-secondary">Назад</a>
         </form>

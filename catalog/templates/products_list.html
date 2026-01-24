@@ -16,6 +16,13 @@
                     {% for product in products %}
                         {% if product.is_published %}  <!-- Показываем только опубликованные -->
                             {% include 'includes/inc_product_data.html' with product=product %}
+
+                            {% if perms.catalog.can_unpublish_product %}  <!-- ПРАВИЛЬНО -->
+                                <a href="{% url 'catalog:product_update' product.pk %}" class="btn btn-warning btn-sm">
+                                    Отменить публикацию
+                                </a>
+                            {% endif %}
+
                         {% endif %}
                     {% endfor %}
 

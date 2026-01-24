@@ -24,3 +24,11 @@ class ProductAdmin(admin.ModelAdmin):
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ("id", "category_name")
+
+
+from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.models import User
+
+# Регистрация пользователей
+admin.site.register(User, UserAdmin)
+

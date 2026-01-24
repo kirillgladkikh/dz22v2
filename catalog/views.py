@@ -79,6 +79,11 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
         return context
 
     def form_valid(self, form):
+        # Проверка права на отмену публикации
+        if form.cleaned_data.get("is_published") is False:
+            if not self.request.user.has_perm("catalog.can_unpublish_product"):
+                form.add_error(None, "У вас нет прав на отмену публикации продукта.")
+                return self.form_invalid(form)
         return super().form_valid(form)
 
 
@@ -86,3 +91,9 @@ class ProductDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
     template_name = "product_delete.html"
     success_url = reverse_lazy("catalog:products_list")
+
+    def dispatch(self, request, *args, **kwargs):
+        # Проверяем право на удаление
+        if not request.user.has_perm("catalog.delete_product"):
+            return self.handle_no_permission()
+        return super().dispatch(request, *args, **kwargs)
