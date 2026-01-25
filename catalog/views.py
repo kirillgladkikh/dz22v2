@@ -15,7 +15,8 @@ class ProductsListView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["products"] = Product.objects.all()
+        context["products"] = Product.objects.select_related("owner").all()
+        # context["products"] = Product.objects.all()
         context["is_product_card"] = False
         return context
 
@@ -64,6 +65,8 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
         return context
 
     def form_valid(self, form):
+        form.instance.owner = self.request.user  # автоматически устанавливаем владельца
+        # form.instance.owner = self.request.user
         return super().form_valid(form)
 
 
@@ -86,14 +89,34 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
                 return self.form_invalid(form)
         return super().form_valid(form)
 
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.object.owner != request.user and not request.user.has_perm("catalog.can_unpublish_product"):
+            return self.handle_no_permission()
+        return super().dispatch(request, *args, **kwargs)
+
 
 class ProductDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
     template_name = "product_delete.html"
     success_url = reverse_lazy("catalog:products_list")
 
-    def dispatch(self, request, *args, **kwargs):
-        # Проверяем право на удаление
-        if not request.user.has_perm("catalog.delete_product"):
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.object.owner != request.user:
             return self.handle_no_permission()
-        return super().dispatch(request, *args, **kwargs)
+        return super().get(request, *args, **kwargs)
+
+
+# class ProductDeleteView(LoginRequiredMixin, DeleteView):
+#     model = Product
+#     template_name = "product_delete.html"
+#     success_url = reverse_lazy("catalog:products_list")
+#
+#     def dispatch(self, request, *args, **kwargs):
+#         # Проверяем право на удаление
+#         if (self.object.owner != request.user and
+#             not request.user.has_perm("catalog.delete_product")):
+#         # if (self.object.owner != request.user and not request.user.has_perm("catalog.delete_product")):
+#             return self.handle_no_permission()
+#         return super().dispatch(request, *args, **kwargs)

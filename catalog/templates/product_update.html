@@ -59,7 +59,7 @@
             </div>
 
             <!-- Поле "Опубликован" — показывается только для модераторов -->
-            {% if user.has_perm("catalog.can_unpublish_product") %}
+            {% if perms.catalog.can_unpublish_product %}
                 <div class="mb-3">
                     {{ form.is_published.label_tag }}
                     {{ form.is_published }}

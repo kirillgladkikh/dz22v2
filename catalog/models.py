@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 
 # Create your models here.
@@ -50,6 +51,12 @@ class Product(models.Model):
     # Новое поле: статус публикации
     is_published = models.BooleanField(
         default=False, verbose_name="Опубликован", help_text="Отметьте, чтобы опубликовать продукт"
+    )
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL,  # Изменено на settings.AUTH_USER_MODEL
+        on_delete=models.CASCADE,
+        verbose_name="Владелец",
+        related_name="products",
     )
 
     class Meta:

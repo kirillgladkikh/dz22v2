@@ -1,3 +1,4 @@
+from PIL import Image
 from django import forms
 from .models import Product, Category
 from django.core.exceptions import ValidationError
@@ -18,6 +19,7 @@ class ProductForm(forms.ModelForm):
             "product_category",
             "product_price",
             "is_published",
+            "owner",
         ]  # Добавлено
         labels = {
             "product_name": "Наименование продукта",
@@ -29,7 +31,8 @@ class ProductForm(forms.ModelForm):
         }
         widgets = {
             "product_description": forms.Textarea(attrs={"rows": 6}),
-            "is_published": forms.CheckboxInput()  # Явно задаём виджет
+            "is_published": forms.CheckboxInput(),  # Явно задаём виджет
+            "owner": forms.HiddenInput(),  # скрытое поле
         }
 
     def __init__(self, *args, **kwargs):
@@ -85,28 +88,47 @@ class ProductForm(forms.ModelForm):
         return product_price
 
     def clean_product_image(self):
-        image = self.cleaned_data.get("product_image")
+        image = self.cleaned_data.get('product_image')
+
         if image:
-            # 1. Проверка расширения файла (jpg, jpeg, png)
-            ext = os.path.splitext(image.name)[1].lower()  # получаем расширение
-            if ext not in [".jpg", ".jpeg", ".png"]:
-                raise ValidationError("Допустимы только файлы форматов JPG, JPEG или PNG.")
+            # Проверяем расширение файла
+            ext = os.path.splitext(image.name)[1]  # получаем расширение
+            valid_extensions = ['.jpg', '.jpeg', '.png', '.gif']
 
-            # 2. Проверка размера файла (не более 5 МБ)
-            if image.size > 5 * 1024 * 1024:  # 5 МБ в байтах
-                raise ValidationError("Размер файла не должен превышать 5 МБ.")
+            if not ext.lower() in valid_extensions:
+                raise ValidationError("Загрузка изображений разрешена только в форматах: JPG, JPEG, PNG, GIF")
 
-            # 3. Проверка MIME-типа (дополнительная защита)
-            if not image.content_type.startswith("image/"):
-                raise ValidationError("Файл должен быть изображением.")
-
-            # 4. Проверка, что это действительно изображение (через Pillow)
-            from PIL import Image
-
+            # Проверяем, что это действительно изображение
             try:
-                img = Image.open(image)
-                img.verify()  # проверяет целостность файла
-            except (IOError, SyntaxError) as e:
-                raise ValidationError("Загруженный файл не является корректным изображением.")
+                Image.open(image).verify()
+            except Exception as e:
+                raise ValidationError("Загруженный файл не является корректным изображением")
 
-        return image  # возвращаем очищенное значение
+        return image
+
+    # def clean_product_image(self):
+    #     image = self.cleaned_data.get("product_image")
+    #     if image:
+    #         # 1. Проверка расширения файла (jpg, jpeg, png)
+    #         ext = os.path.splitext(image.name)[1].lower()  # получаем расширение
+    #         if ext not in [".jpg", ".jpeg", ".png"]:
+    #             raise ValidationError("Допустимы только файлы форматов JPG, JPEG или PNG.")
+    #
+    #         # 2. Проверка размера файла (не более 5 МБ)
+    #         if image.size > 5 * 1024 * 1024:  # 5 МБ в байтах
+    #             raise ValidationError("Размер файла не должен превышать 5 МБ.")
+    #
+    #         # 3. Проверка MIME-типа (дополнительная защита)
+    #         if not image.content_type.startswith("image/"):
+    #             raise ValidationError("Файл должен быть изображением.")
+    #
+    #         # 4. Проверка, что это действительно изображение (через Pillow)
+    #         from PIL import Image
+    #
+    #         try:
+    #             img = Image.open(image)
+    #             img.verify()  # проверяет целостность файла
+    #         except (IOError, SyntaxError) as e:
+    #             raise ValidationError("Загруженный файл не является корректным изображением.")
+    #
+    #     return image  # возвращаем очищенное значение

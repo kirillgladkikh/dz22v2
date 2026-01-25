@@ -13,6 +13,7 @@ class ProductAdmin(admin.ModelAdmin):
         "product_description",
         "product_image",
         "is_published",  # Добавлено
+        "owner",  # Добавлено
     )
     list_filter = ("product_category", "is_published")  # Добавлено
     search_fields = (
@@ -31,4 +32,3 @@ from django.contrib.auth.models import User
 
 # Регистрация пользователей
 admin.site.register(User, UserAdmin)
-
