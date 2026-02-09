@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="main-content">
+    <div class="container-fluid">
+        <h2>Продукты по категории</h2>
+
+        <!-- Навигация по категориям -->
+        <ul>
+            {% for category in categories %}
+                <li>
+                    <a href="{% url 'catalog:products_by_category' category.id %}">
+                        {{ category.category_name }} ({{ category.products_count }})
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <!-- Список продуктов текущей категории -->
+        <div>
+            {% if products %}
+                <ul>
+                    {% for product in products %}
+                        <li>
+                            <a href="{% url 'catalog:product_card' product.pk %}">
+                                {{ product.product_name }}
+                            </a>
+                            <span>Цена: {{ product.product_price }} руб.</span>
+                            {% if product.product_image %}
+                                <img src="{{ product.product_image.url }}" width="50">
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>В данной категории нет продуктов.</p>
+            {% endif %}
+        </div>
+
+    </div>
+</div>
+{% endblock %}
