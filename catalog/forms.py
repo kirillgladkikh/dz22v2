@@ -88,12 +88,12 @@ class ProductForm(forms.ModelForm):
         return product_price
 
     def clean_product_image(self):
-        image = self.cleaned_data.get('product_image')
+        image = self.cleaned_data.get("product_image")
 
         if image:
             # Проверяем расширение файла
             ext = os.path.splitext(image.name)[1]  # получаем расширение
-            valid_extensions = ['.jpg', '.jpeg', '.png', '.gif']
+            valid_extensions = [".jpg", ".jpeg", ".png", ".gif"]
 
             if not ext.lower() in valid_extensions:
                 raise ValidationError("Загрузка изображений разрешена только в форматах: JPG, JPEG, PNG, GIF")

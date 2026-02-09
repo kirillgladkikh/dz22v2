@@ -52,11 +52,9 @@ class ContactsView(View):
         name = request.POST.get("name")
         phone = request.POST.get("phone")
         message = request.POST.get("message")
-        return HttpResponse(
-            f"Спасибо, {name}! \
+        return HttpResponse(f"Спасибо, {name}! \
             Ваш телефон: {phone}. \
-            Сообщение получено: {message}."
-        )
+            Сообщение получено: {message}.")
 
 
 class ProductCreateView(LoginRequiredMixin, CreateView):
@@ -114,15 +112,15 @@ class ProductDeleteView(LoginRequiredMixin, DeleteView):
 
 
 class ProductsByCategoryView(ListView):
-    template_name = 'products_by_category.html'
-    context_object_name = 'products'
+    template_name = "products_by_category.html"
+    context_object_name = "products"
 
     def get_queryset(self):
-        category_id = self.kwargs['category_id']
+        category_id = self.kwargs["category_id"]
         return get_products_by_category(category_id)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['categories'] = get_all_categories_with_products_count()
-        context['current_category_id'] = self.kwargs['category_id']
+        context["categories"] = get_all_categories_with_products_count()
+        context["current_category_id"] = self.kwargs["category_id"]
         return context
