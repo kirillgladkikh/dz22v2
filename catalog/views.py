@@ -8,6 +8,9 @@ from .forms import ProductForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from catalog.services import get_products_from_cache
 
+from django.views.generic import ListView
+from .services import get_products_by_category, get_all_categories_with_products_count
+
 from .models import Category
 
 
@@ -69,7 +72,6 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.owner = self.request.user  # автоматически устанавливаем владельца
-        # form.instance.owner = self.request.user
         return super().form_valid(form)
 
 
@@ -110,10 +112,6 @@ class ProductDeleteView(LoginRequiredMixin, DeleteView):
             return self.handle_no_permission()
         return super().get(request, *args, **kwargs)
 
-
-
-from django.views.generic import ListView
-from .services import get_products_by_category, get_all_categories_with_products_count
 
 class ProductsByCategoryView(ListView):
     template_name = 'products_by_category.html'
