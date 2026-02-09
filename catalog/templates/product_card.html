@@ -7,9 +7,9 @@
             <div class="col-6"> <!-- Колонка шириной 6/12 для размещения основного контента -->
                 <!-- Карточки товаров -->
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 g-4">
-
-                    {% include 'includes/inc_product_data.html' with product=product %}
-
+                    {% if product.is_published %}  <!-- Показываем только опубликованные -->
+                        {% include 'includes/inc_product_data.html' with product=product %}
+                    {% endif %}
                 </div>
             <div class="col-2"></div>
         </div>
