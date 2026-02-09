@@ -12,7 +12,8 @@ dependencies = [
     "python-dotenv (>=1.2.1,<2.0.0)",
     "pillow (>=12.0.0,<13.0.0)",
     "ipython (>=9.8.0,<10.0.0)",
-    "django (==4.2.2)"
+    "django (==4.2.2)",
+    "redis (>=7.1.0,<8.0.0)"
 ]
 
 
@@ -54,7 +55,7 @@ line_length = 119
 [dependency-groups]
 lint = [
     "flake8 (>=7.3.0,<8.0.0)",
-    "black (>=25.11.0,<26.0.0)",
+    "black (>=26.0.0,<27.0.0)",
     "mypy (>=1.19.0,<2.0.0)",
     "isort (>=7.0.0,<8.0.0)"
 ]
