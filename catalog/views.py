@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 from catalog.models import Product
 from .forms import ProductForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from catalog.services import get_products_from_cache
 
 from .models import Category
 
@@ -16,9 +17,11 @@ class ProductsListView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["products"] = Product.objects.select_related("owner").all()
-        # context["products"] = Product.objects.all()
         context["is_product_card"] = False
         return context
+
+    def get_queryset(self):
+        return get_products_from_cache()
 
 
 class ProductCardView(LoginRequiredMixin, DetailView):
@@ -106,17 +109,3 @@ class ProductDeleteView(LoginRequiredMixin, DeleteView):
         if self.object.owner != request.user:
             return self.handle_no_permission()
         return super().get(request, *args, **kwargs)
-
-
-# class ProductDeleteView(LoginRequiredMixin, DeleteView):
-#     model = Product
-#     template_name = "product_delete.html"
-#     success_url = reverse_lazy("catalog:products_list")
-#
-#     def dispatch(self, request, *args, **kwargs):
-#         # Проверяем право на удаление
-#         if (self.object.owner != request.user and
-#             not request.user.has_perm("catalog.delete_product")):
-#         # if (self.object.owner != request.user and not request.user.has_perm("catalog.delete_product")):
-#             return self.handle_no_permission()
-#         return super().dispatch(request, *args, **kwargs)
