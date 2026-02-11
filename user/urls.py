@@ -5,7 +5,6 @@ from user.views import UserCreateView, email_verification
 from user.forms import LoginForm
 from . import views
 
-
 app_name = UserConfig.name
 
 urlpatterns = [

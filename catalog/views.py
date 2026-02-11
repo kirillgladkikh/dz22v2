@@ -6,6 +6,10 @@ from django.urls import reverse_lazy
 from catalog.models import Product
 from .forms import ProductForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from catalog.services import get_products_from_cache
+
+from django.views.generic import ListView
+from .services import get_products_by_category, get_all_categories_with_products_count
 
 from .models import Category
 
@@ -16,9 +20,11 @@ class ProductsListView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["products"] = Product.objects.select_related("owner").all()
-        # context["products"] = Product.objects.all()
         context["is_product_card"] = False
         return context
+
+    def get_queryset(self):
+        return get_products_from_cache()
 
 
 class ProductCardView(LoginRequiredMixin, DetailView):
@@ -46,11 +52,9 @@ class ContactsView(View):
         name = request.POST.get("name")
         phone = request.POST.get("phone")
         message = request.POST.get("message")
-        return HttpResponse(
-            f"Спасибо, {name}! \
+        return HttpResponse(f"Спасибо, {name}! \
             Ваш телефон: {phone}. \
-            Сообщение получено: {message}."
-        )
+            Сообщение получено: {message}.")
 
 
 class ProductCreateView(LoginRequiredMixin, CreateView):
@@ -66,7 +70,6 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.owner = self.request.user  # автоматически устанавливаем владельца
-        # form.instance.owner = self.request.user
         return super().form_valid(form)
 
 
@@ -108,15 +111,16 @@ class ProductDeleteView(LoginRequiredMixin, DeleteView):
         return super().get(request, *args, **kwargs)
 
 
-# class ProductDeleteView(LoginRequiredMixin, DeleteView):
-#     model = Product
-#     template_name = "product_delete.html"
-#     success_url = reverse_lazy("catalog:products_list")
-#
-#     def dispatch(self, request, *args, **kwargs):
-#         # Проверяем право на удаление
-#         if (self.object.owner != request.user and
-#             not request.user.has_perm("catalog.delete_product")):
-#         # if (self.object.owner != request.user and not request.user.has_perm("catalog.delete_product")):
-#             return self.handle_no_permission()
-#         return super().dispatch(request, *args, **kwargs)
+class ProductsByCategoryView(ListView):
+    template_name = "products_by_category.html"
+    context_object_name = "products"
+
+    def get_queryset(self):
+        category_id = self.kwargs["category_id"]
+        return get_products_by_category(category_id)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["categories"] = get_all_categories_with_products_count()
+        context["current_category_id"] = self.kwargs["category_id"]
+        return context
